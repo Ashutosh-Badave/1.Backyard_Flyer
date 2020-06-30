@@ -3,7 +3,7 @@ import time
 from enum import Enum
 
 import numpy as np
-
+import matplotlib.pyplot as plt
 from udacidrone import Drone
 from udacidrone.connection import MavlinkConnection, WebSocketConnection  # noqa: F401
 from udacidrone.messaging import MsgID
@@ -24,6 +24,7 @@ class BackyardFlyer(Drone):
         super().__init__(connection)
         self.target_position = np.array([0.0, 0.0, 0.0])
         self.all_waypoints = []
+        self.ATT = []
         self.in_mission = True
         self.check_state = {}
         self.i = 0
@@ -34,10 +35,12 @@ class BackyardFlyer(Drone):
         self.register_callback(MsgID.LOCAL_POSITION, self.local_position_callback)
         self.register_callback(MsgID.LOCAL_VELOCITY, self.velocity_callback)
         self.register_callback(MsgID.STATE, self.state_callback)
+        self.register_callback(MsgID.ATTITUDE, self.attitude_callback)
 
     def local_position_callback(self):
         """This triggers when `MsgID.LOCAL_POSITION` is received and self.local_position 		contains new data
         """
+        print(self.attitude)
         if self.flight_state == States.TAKEOFF:
 
             # coordinate conversion
@@ -71,6 +74,7 @@ class BackyardFlyer(Drone):
             if ((self.global_position[2] - self.global_home[2] < 0.1) and
             abs(self.local_position[2]) < 0.01):
                 self.disarming_transition()
+                self.plotting_graphs()
 
     def state_callback(self):
         """This triggers when `MsgID.STATE` is received and self.armed and self.guided 		contain new data
@@ -88,6 +92,14 @@ class BackyardFlyer(Drone):
             if not self.armed:
                 self.manual_transition()
 
+    def attitude_callback(self):
+        """This triggers when changes in attitude"""
+        self.ATT = self.attitude
+        print(self.attitude)
+
+    def plotting_graphs(self):
+        """Plotting the graphs of vehicle attitude,velocity ,heading"""
+        plt.plot(self.ATT,'r')
 
     def calculate_box(self):
         """
@@ -97,7 +109,6 @@ class BackyardFlyer(Drone):
                               (10, 10, 5, 0),
                               (0,  10, 5, 0),
                               (0,   0, 5, 0)]
-
 
     def arming_transition(self):
         """
