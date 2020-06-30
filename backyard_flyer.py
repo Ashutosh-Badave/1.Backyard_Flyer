@@ -50,9 +50,7 @@ class BackyardFlyer(Drone):
                 self.i+=1
         elif self.flight_state == States.WAYPOINT:
             Total_waypoints = len(self.all_waypoints)
-            print(self.local_position)
-            print(self.target_position)
-            #if (Total_waypoints > self.i):
+
             HRangeX = self.target_position[0] + 0.2
             LRangeX = self.target_position[0] - 0.2
             HRangeY = self.target_position[1] + 0.2
@@ -137,27 +135,23 @@ class BackyardFlyer(Drone):
         2. Transition to WAYPOINT state
         """
         print("waypoint transition")
-        print(self.local_position)
-        print(self.target_position)
         self.target_position = np.array(self.all_waypoints[self.i])
         #self.cmd_position(self.target_position[0],self.target_position[1],self.target_position[2],self.target_position[3])
         self.cmd_position(*self.target_position)
         self.flight_state = States.WAYPOINT
 
     def landing_transition(self):
-       """1. Command the drone to land
-          2. Transition to the LANDING state
-       """
+        #1. Command the drone to land
+        #2. Transition to the LANDING state
+
         print("landing transition")
         self.land()
         self.flight_state = States.LANDING
 
     def disarming_transition(self):
-        """TODO: Fill out this method
-        
-        1. Command the drone to disarm
-        2. Transition to the DISARMING state
-        """
+        #1. Command the drone to disarm
+        #2. Transition to the DISARMING state
+
         print("disarm transition")
         self.disarm()
         self.flight_state = States.DISARMING
