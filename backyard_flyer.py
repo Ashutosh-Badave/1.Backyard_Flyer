@@ -40,7 +40,7 @@ class BackyardFlyer(Drone):
     def local_position_callback(self):
         """This triggers when `MsgID.LOCAL_POSITION` is received and self.local_position 		contains new data
         """
-        print(self.attitude)
+        #print(self.attitude)
         if self.flight_state == States.TAKEOFF:
 
             # coordinate conversion
