@@ -1,4 +1,7 @@
-# FCND - Backyard Flyer Project
+# Flying a Drone in backyard 
+![Quad Image](./Flying_vehicle.png)
+
+This is the first project of autonomous aerial vehicle nanodegree program of udacity. 
 In this project, I have created a state machine using event-driven programming to autonomously flying a drone. I have used flying quadcopter in Unity simulator. While working on this project, I understood the message communication with drone.
 
 The python code is written to control the drone from a ground station computer or an onboard flight computer.
