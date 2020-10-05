@@ -2,9 +2,7 @@
 ![Quad Image](./Flying_vehicle.png)
 
 This is the first project of autonomous aerial vehicle nanodegree program of udacity. 
-In this project, I have created a state machine using event-driven programming to autonomously flying a drone. I have used flying quadcopter in Unity simulator. While working on this project, I understood the message communication with drone.
-
-The python code is written to control the drone from a ground station computer or an onboard flight computer.
+In this project, I have created a state machine using event-driven programming to autonomously flying a drone. I have used flying quadcopter in Unity simulator. While working on this project, The python code was developed to control the autonomous drone using Mavlink protocol from a ground station computer or an onboard flight computer.
 
 ## Step 1: Download the Simulator
 Download the version of the simulator that's appropriate for your operating system [from this repository](https://github.com/udacity/FCND-Simulator-Releases/releases).
@@ -26,78 +24,7 @@ Autonomous control will be done using an event-driven state machine.
 
 ## Drone API
 
-To communicate with the simulator (and a real drone), you will be using the [UdaciDrone API](https://udacity.github.io/udacidrone/).  This API handles all the communication between Python and the drone simulator.  A key element of the API is the `Drone` superclass that contains the commands to be passed to the simulator and allows you to register callbacks/listeners on changes to the drone's attributes.  The goal of this project is to design a subclass from the Drone class implementing a state machine to autonomously fly a box. A subclass is started for you in `backyard_flyer.py`
-
-### Drone Attributes
-
-The `Drone` class contains the following attributes that you may find useful for this project:
-
- - `self.armed`: boolean for the drone's armed state
- - `self.guided`: boolean for the drone's guided state (if the script has control or not)
- - `self.local_position`: a vector of the current position in NED coordinates
- - `self.local_velocity`: a vector of the current velocity in NED coordinates
-
-For a detailed list of all of the attributes of the `Drone` class [check out the UdaciDrone API documentation](https://udacity.github.io/udacidrone/).
-
-
-### Registering Callbacks
-
-As the simulator passes new information about the drone to the Python `Drone` class, the various attributes will be updated.  Callbacks are functions that can be registered to be called when a specific set of attributes are updated.  There are two steps needed to be able to create and register a callback:
-
-1. Create the callback function:
-
-Each callback function you may want needs to be defined as a member function of the `BackyardFlyer` class provided to you in `backyard_flyer.py` that takes in only the `self` parameter.  You will see in the template provided to you in `backyard_flyer.py` three such callback methods you may find useful have already been defined.  For example, here is the definition of one of the callback methods:
-
-```python
-class BackyardFlyer(Drone):
-    ...
-
-    def local_position_callback(self):
-        """ this is triggered when self.local_position contains new data """
-        pass
-```
-
-2. Register the callback:
-
-In order to have your callback function called when the appropriate attributes are updated, each callback needs to be registered.  This registration takes place in you `BackyardFlyer`'s `__init__()` function as shown below:
-
-```python
-class BackyardFlyer(Drone):
-
-    def __init__(self, connection):
-        ...
-
-        # TODO: Register all your callbacks here
-        self.register_callback(MsgID.LOCAL_POSITION, self.local_position_callback)
-```
-
-Since callback functions are only called when certain drone attributes are changed, the first parameter to the callback registration indicates for which attribute changes you want the callback to occur.  For example, here are some message id's that you may find useful (for a more detailed list, see the UdaciDrone API documentation):
-
- - `MsgID.LOCAL_POSITION`: updates the `self.local_position` attribute
- - `MsgID.LOCAL_VELOCITY`: updates the `self.local_velocity` attribute
- - `MsgID.STATE`: updates the `self.guided` and `self.armed` attributes
-
-
-### Outgoing Commands
-
-The UdaciDrone API's `Drone` class also contains function to be able to send commands to the drone.  Here is a list of commands that you may find useful during the project:
-
- - `connect()`: Starts receiving messages from the drone. Blocks the code until the first message is received
- - `start()`: Start receiving messages from the drone. If the connection is not threaded, this will block the code.
- - `arm()`: Arms the motors of the quad, the rotors will spin slowly. The drone cannot takeoff until armed first
- - `disarm()`: Disarms the motors of the quad. The quadcopter cannot be disarmed in the air
- - `take_control()`: Set the command mode of the quad to guided
- - `release_control()`: Set the command mode of the quad to manual
- - `cmd_position(north, east, down, heading)`: Command the drone to travel to the local position (north, east, down). Also commands the quad to maintain a specified heading
- - `takeoff(target_altitude)`: Takeoff from the current location to the specified global altitude
- - `land()`: Land in the current position
- - `stop()`: Terminate the connection with the drone and close the telemetry log
-
-These can be called directly from other methods within the drone class:
-
-```python
-self.arm() # Seends an arm command to the drone
-```
+To communicate with the simulator (and a real drone), you will be using the [UdaciDrone API](https://udacity.github.io/udacidrone/).  This API handles all the communication between Python and the drone simulator.  A key element of the API is the `Drone` superclass that contains the commands to be passed to the simulator and allows you to register callbacks/listeners on changes to the drone's attributes. 
 
 ### Manual Flight
 
@@ -128,7 +55,6 @@ drone.stop()
 ```
 
 When starting the drone manually from a python/ipython shell you have the option to provide a desired filename for the telemetry log file (such as "TLog-manual.txt" as shown above).  This allows you to customize the telemetry log name as desired to help keep track of different types of log files you might have.  Note that when running the drone from `python drone.py` for manual flight, the telemetry log will default to "TLog-manual.txt".
-
 
 ### Running the Autonomous Drone
 
